@@ -30,6 +30,7 @@ class XLShelper {
 
 	addColumn(colName,cb){
 		this.data[0].push(colName);
+		console.log("colName");
 		var that = this;
 		for(var i = 1;i< this.data.length;i++){
 			var row = this.data[i];
@@ -37,6 +38,7 @@ class XLShelper {
 				that.reusableColumnObj[val] = row[ind];
 			})
 			try {
+				console.log(that.reusableColumnObj);
 				row.push(cb(that.reusableColumnObj));
 			} catch(err){
 				console.log("The column names you entered probably didn't match your columns")	
@@ -157,23 +159,35 @@ class XLShelper {
 	}
 
 	printToHTML(){
-		var htmlstring = "<table border="1">";
-
-		htmlstring += "</table>"
-
+		var htmlstring = "<table border='1'>";
+		this.data.forEach(function(row){
+			htmlstring += "<tr>";
+			row.forEach(function(elem){
+				htmlstring += "<td>"+ elem +"</td>";
+			})
+			htmlstring += "</tr>";
+		})
+		htmlstring += "</table>";
+		htmlstring = "<html><head></head><body>" + htmlstring + "</body>"
+		return htmlstring;
 	}
 
 	setToEndpoint(res){
-
+		res.end(this.printToHTML());
 	}
 
 }
 
+module.exports = XLShelper;
 
 
-var test = new XLShelper(__dirname + '/sample.xls');
-test.addRow("Sum",function(a,b){return a +b;})
-// test.addColumnSimple("BodyWeight+BrainWeight","bodywt + brainwt")
-test.write(__dirname + "/test.xls");
+//TESTS
+var test = new XLShelper(__dirname + '/testdata/sample.xls');
+// test.addRow("Sum",function(a,b){return a +b;})
+test.addColumn("BodyWeight+BrainWeight",function(d){
+	return d.bodywt + d.brainwt;
+})
+test.write(__dirname + "/testdata/test.xls");
 // test.pivotTable(function(a,b){return a+b},"bodywt","age","sex#")
-// test.writepivotTable(__dirname + "/test.xls")
+// // test.writepivotTable(__dirname + "/test.xls")
+// console.log(test.printToHTML());

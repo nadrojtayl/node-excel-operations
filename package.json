@@ -1,0 +1,17 @@
+{
+  "name": "excel-operations-node",
+  "version": "1.0.0",
+  "description": "Nodel Excel file manipulator that lets you perform operations on spreadsheets (add row, pivot table, etc). You can write your new transformed spreadsheets to files, and serve your spreadsheets from a server using NodeJS. Way faster than excel.",
+  "keywords": ["xls","xlsx","excel","parser"],
+  "main": "main.js",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "node-xlsx": "^0.7.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
