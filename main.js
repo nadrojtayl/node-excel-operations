@@ -61,8 +61,23 @@ class XLShelper {
 		}
 	}
 
-	addRow(){
-
+	addRow(rowName,cb){
+		var rowlength = this.data[1].length,newrow = this.data[1].slice();
+		newrow.unshift(rowName);
+		this.data[0].unshift("");
+		this.data[1].unshift("");
+		for(var i = 2;i<this.data.length;i++){
+			this.data[i].unshift("");
+			for(var j = 0;j<rowlength;j++){
+			 	if(typeof this.data[i][j] === "number"){
+					newrow[j] = cb(newrow[j],this.data[i][j]);
+				}
+			}
+		}
+		this.data.push(newrow.map(function(elem){
+			if(typeof elem === "number"){return elem}
+			return "NAN"
+		}));
 	}
 
 	pivotTable(fnction,colToOperateOn,rowlabel,columnlabel){
@@ -142,10 +157,13 @@ class XLShelper {
 	}
 
 	printToHTML(){
+		var htmlstring = "<table border="1">";
+
+		htmlstring += "</table>"
 
 	}
 
-	setToEndpoint(){
+	setToEndpoint(res){
 
 	}
 
@@ -154,7 +172,8 @@ class XLShelper {
 
 
 var test = new XLShelper(__dirname + '/sample.xls');
+test.addRow("Sum",function(a,b){return a +b;})
 // test.addColumnSimple("BodyWeight+BrainWeight","bodywt + brainwt")
-// // test.write(__dirname + "/test.xls");
-test.pivotTable(function(a,b){return a+b},"bodywt","age","sex#")
-test.writepivotTable(__dirname + "/test.xls")
+test.write(__dirname + "/test.xls");
+// test.pivotTable(function(a,b){return a+b},"bodywt","age","sex#")
+// test.writepivotTable(__dirname + "/test.xls")
