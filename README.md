@@ -63,6 +63,13 @@ pivotTable(function,colToOperateOn,rowlabel,columnlabel): mimics Excel pivot tab
 
 The first argument is the function that defines what operation you want to do on the value in each row that you are "pivoting". The second is the name of the column you want to pivot. The third is the name of the column whose values you want to put in the row of your table. The fourth is the name of the row whose values you want to put in the columns of your table
 
-//finishing soon
+For example you could run the code below to create a pivot table where you see the sum of the weight column for all combinations of ages and sex
 
-only works on numbers
+```js
+	xls.pivotTable(function(a,b){return a+b},"weight","age","sex")
+```
+
+writepivotTable(directory): writes the pivotTable created with the pivotTable function to the file at the path 'directory'
+
+printToHTML(): prints the table -- with any modifications -- to an HTML string that will create a table with your data in a browser
+
